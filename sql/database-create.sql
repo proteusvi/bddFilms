@@ -29,7 +29,7 @@ create table bddFilms.metrage (
 create table bddFilms.film (
     id INT(9) PRIMARY KEY AUTO_INCREMENT,
     titreFR CHARACTER(64) NOT NULL,
-    sous - titreFR CHARACTER(32),
+    sousTitreFR CHARACTER(32),
     annee CHARACTER(4) NOT NULL,
     id_realisateur INT(9),
     FOREIGN KEY (id_realisateur) REFERENCES bddFilms.realisateur (id)
@@ -63,7 +63,7 @@ create table bddFilms.video (
     id INT(9) PRIMARY KEY AUTO_INCREMENT,
     qualite CHARACTER(32) NOT NULL,
     duree INT(2),
-    sous - titres BOOLEAN NOT NULL DEFAULT TRUE,
+    sousTitre BOOLEAN NOT NULL DEFAULT TRUE,
     chemin CHARACTER(255)
 );
 
@@ -93,6 +93,9 @@ create table bddFilms.template (
     FOREIGN KEY (id_templateB) REFERENCES bddFilms.templateB (id)
 );
 
+--+-------------------------------------+
+--| Template for linking tables.        |
+--+-------------------------------------+
 create table bddFilms.template (
     id_templateA INT(9) NOT NULL,
     id_templateB INT(9) NOT NULL,
