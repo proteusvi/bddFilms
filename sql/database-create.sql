@@ -63,7 +63,7 @@ create table bddFilms.video (
     id INT(9) PRIMARY KEY AUTO_INCREMENT,
     qualite CHARACTER(32) NOT NULL,
     duree INT(2),
-    sousTitre BOOLEAN NOT NULL DEFAULT TRUE,
+    sousTitres BOOLEAN NOT NULL DEFAULT TRUE,
     chemin CHARACTER(255)
 );
 
