@@ -48,7 +48,7 @@ create table bddFilms.saison (
     id INT(9) PRIMARY KEY AUTO_INCREMENT,
     titreFR CHARACTER(32),
     numero INT(2),
-    id_serie INT (9),
+    id_serie INT(9),
     id_realisateur INT(9),
     FOREIGN KEY (id_serie) REFERENCES bddFilms.serie (id),
     FOREIGN KEY (id_realisateur) REFERENCES bddFilms.realisateur (id)
