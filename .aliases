@@ -1,0 +1,25 @@
+# To load env variables like ${PROJECT_NAME}.
+if [ -f docker/.env ]; then
+   . docker/.env
+fi
+
+# Fonction de connection au container voulu.
+function connect() {
+  container="$1"
+  case ${container} in 
+     bdd) 
+        docker exec -it ${PROJECT_NAME}_mariadb bash
+        ;; 
+     *) 
+       echo "INFO"
+       echo
+       echo "Type connect bdd to connect to container ${PROJECT_NAME}_mariadb"
+  esac
+}
+
+# Start and load containers from compose.yml.
+alias start='docker compose -f docker/compose.yml up -d'
+# Stop and remove containers.
+alias stop='docker compose -f docker/compose.yml down --remove_orphans'
+alias restart='stop; \
+start'
