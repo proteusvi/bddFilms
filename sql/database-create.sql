@@ -41,7 +41,7 @@ create table bddFilms.serie (
     id INT(9) PRIMARY KEY AUTO_INCREMENT,
     titreFR CHARACTER(32) NOT NULL,
     annee_debut CHARACTER(4) NOT NULL,
-    annee_fin CHARACTER(4) id INT(9)
+    annee_fin CHARACTER(4)
 );
 
 create table bddFilms.saison (
@@ -137,3 +137,5 @@ create table bddFilms.serie_apour_genre (
 --     FOREIGN KEY (id_templateA) REFERENCES bddFilms.templateA (id),
 --     FOREIGN KEY (id_templateB) REFERENCES bddFilms.templateB (id)
 -- );
+
+commit;
