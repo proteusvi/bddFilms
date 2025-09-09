@@ -57,7 +57,9 @@ create table bddFilms.saison (
 create table bddFilms.episode (
     id INT(9) PRIMARY KEY AUTO_INCREMENT,
     titreFR CHARACTER(32) NOT NULL,
-    numero INT(2)
+    numero INT(2),
+    id_serie INT(9),
+    FOREIGN KEY (id_serie) REFERENCES bddFilms.serie (id)
 );
 
 create table bddFilms.indexRecherche (
