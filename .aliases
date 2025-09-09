@@ -20,6 +20,6 @@ function connect() {
 # Start and load containers from compose.yml.
 alias start='docker compose -f docker/compose.yml up -d'
 # Stop and remove containers.
-alias stop='docker compose -f docker/compose.yml down --remove_orphans'
+alias stop='docker compose -f docker/compose.yml down --remove-orphans'
 alias restart='stop; \
 start'
