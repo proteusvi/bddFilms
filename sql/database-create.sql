@@ -77,7 +77,11 @@ create table bddFilms.video (
     qualite CHARACTER(32) NOT NULL,
     duree INT(2),
     sousTitres BOOLEAN NOT NULL DEFAULT TRUE,
-    chemin CHARACTER(255)
+    chemin CHARACTER(255),
+    id_film INT(9),
+    id_serie INT(9),
+    FOREIGN KEY (id_film) REFERENCES bddFilms.film (id),
+    FOREIGN KEY (id_serie) REFERENCES bddFilms.serie (id)
 );
 
 -- tables de liaison
