@@ -41,4 +41,4 @@ docker/
 ### Tools
 - Editor : [Visual Code](https://code.visualstudio.com/download).
 - Plugins :
- - [DBCode-Database Management](https://dbcode.io/).
+  - [DBCode-Database Management](https://dbcode.io/).
