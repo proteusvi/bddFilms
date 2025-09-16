@@ -26,7 +26,7 @@ function createSpacesForTitle() {
     maxSpaces=$((33))
     text="$1"
     length=${#text}
-    spaces='                                 '
+    spaces='                                '
     if [[ "${length}" > "0" ]]; then
        i=$((${maxSpaces}-${length}-1))
        spaces=''
