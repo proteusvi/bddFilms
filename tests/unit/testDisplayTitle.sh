@@ -33,7 +33,7 @@ displayResultTest "displayTitle 4 : Create episode." "+-------------------------
 
 toCompare="\e[31mError :\e[0m\n"
 toCompare="${toCompare}Title is equal or greater than 32 characters."
-displayErrorMessageTest "displayTitle 5 : More than 32 characters." \
+displayResultTest "displayTitle 5 : More than 32 characters." \
 "$(echo -en ${toCompare})" \
 "$(displayTitle 'This phrase is greater than 32 characters.')"
 

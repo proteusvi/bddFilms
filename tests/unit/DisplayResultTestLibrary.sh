@@ -46,20 +46,3 @@ function displayResultTest() {
         echo -e "\e[34m${expected}\e[0m"
     fi
 }
-
-function displayErrorMessageTest() {
-    testName="$1"
-    expected="$2"
-    effective="$3"
-
-    echo -en "\e[34m${testName} :\e[0m\n"
-    if [[ *"${expected}"* =~ "${effective}" ]]; then
-        displaySucceed
-    else
-        displayFailed
-        echo -en "The result :\n"
-        echo -en "\e[31m${effective}\e[0m\n"
-        echo -en "doesn't correspond to expected :\n"
-        echo -e "\e[34m${expected}\e[0m"
-    fi
-}

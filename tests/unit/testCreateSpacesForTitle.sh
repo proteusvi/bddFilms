@@ -20,6 +20,6 @@ displayResultTest "Test createSpacesForTitle 2 : Empty parameter." "            
 
 toCompare="\e[31mError :\e[0m\n"
 toCompare="${toCompare}Title is equal or greater than 32 characters."
-displayErrorMessageTest "Test createSpacesForTitle 3 : More than 32 character." \
+displayResultTest "Test createSpacesForTitle 4 : More than 32 character bis." \
 "$(echo -en ${toCompare})" \
 "$(createSpacesForTitle 'This phrase is greater than 32 characters.')"
