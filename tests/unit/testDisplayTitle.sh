@@ -1,29 +1,42 @@
 #!/bin/bash
-# Load the library.
+#    .--.
+#   |o_o |
+#   |:_/ |
+#  //   \ \
+# (|     | )
+# /'\_   _/`\
+# \___)=(___/
+# Test file for a create title in a limited space.
+# @auth  : proteusvi@gmail.com
+# @since : mer. 17 sept. 2025 08:36:26 CEST
+
+# Load the libraries.
 . src/script/UiInterfaceLibrary.sh
 . tests/unit/DisplayResultTestLibrary.sh
 
-# Test title "Create film"
-displayResultTest "displayTitle 1" "+---------------------------------+
+
+displayResultTest "displayTitle 1 : Create film." "+---------------------------------+
 # Create film                     #
 +---------------------------------+" "$(displayTitle 'Create film')"
-# Test title "Create serie"
-displayResultTest "displayTitle 2" "+---------------------------------+
+
+displayResultTest "displayTitle 2 : Create serie." "+---------------------------------+
 # Create serie                    #
 +---------------------------------+" "$(displayTitle 'Create serie')"
-# Test title "Create season"
-displayResultTest "displayTitle 3" "+---------------------------------+
+
+displayResultTest "displayTitle 3 : Create season." "+---------------------------------+
 # Create season                   #
 +---------------------------------+" "$(displayTitle 'Create season')"
-# Test title "Create episode"
-displayResultTest "displayTitle 4" "+---------------------------------+
+
+displayResultTest "displayTitle 4 : Create episode." "+---------------------------------+
 # Create episode                  #
 +---------------------------------+" "$(displayTitle 'Create episode')"
-# Test title Didier Beux et sa famille."
-displayResultTest "displayTitle 5" "+---------------------------------+
-# Didier Beux et sa famille.      #
-+---------------------------------+" "$(displayTitle 'Didier Beux et sa famille.')"
-# Test title empty"
-displayResultTest "displayTitle 6" "+---------------------------------+
+
+toCompare="\e[31mError :\e[0m\n"
+toCompare="${toCompare}Title is equal or greater than 32 characters."
+displayErrorMessageTest "displayTitle 5 : More than 32 characters." \
+"$(echo -en ${toCompare})" \
+"$(displayTitle 'This phrase is greater than 32 characters.')"
+
+displayResultTest "displayTitle 6 : Title is empty." "+---------------------------------+
 #                                 #
 +---------------------------------+" "$(displayTitle)"
