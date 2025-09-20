@@ -17,18 +17,18 @@
 test_requestHydratationFields() {
     listOfFileds=('champ1' 'champ2' 'champ3')
     sfields="$(requestHydratationFields ${listOfFileds[@]})"
-    assert_equals "champ1, champ2, champ3" "${sfields}" "Erreur"
+    assert_equals "champ1, champ2, champ3" "${sfields}" "Erreur, la liste des champs est incorrecte"
 }
 
 test_requestHydratationValues() {
     listOfValues=('value1' 'value2' 'value3')
     svalues="$(requestHydratationValues ${listOfValues[@]})"
-    assert_equals "\"value1\", \"value2\", \"value3\"" "${svalues}" "Erreur"
+    assert_equals "\"value1\", \"value2\", \"value3\"" "${svalues}" "Erreur, la liste des valeurs est incorrecte"
 }
 
 test_insertIntoRequest() {
     listOfFileds=('champ1' 'champ2' 'champ3')
     listOfValues=('value1' 'value2' 'value3')
-    svalues="$(buildInsertIntoRequest "maTable" 3 ${listOfFileds[@]} ${listOfValues[@]})"
-    assert_equals "INSERT INTO maTable ( champ1, champ2, champ3 ) VALUES ( \"value1\", \"value2\", \"value3\" );" "${svalues}" "Erreur"
+    sRequest="$(buildInsertIntoRequest "maTable" 3 ${listOfFileds[@]} ${listOfValues[@]})"
+    assert_equals "INSERT INTO maTable ( champ1, champ2, champ3 ) VALUES ( \"value1\", \"value2\", \"value3\" );" "${sRequest}" "Erreur, la requête est incorrecte"
 }
