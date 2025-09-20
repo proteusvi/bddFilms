@@ -10,10 +10,6 @@
 # @auth  : proteusvi@gmail.com
 # @since : jeu. 18 sept. 2025 10:24:42 CEST
 
-# DB credentials from environment.
-# @Todo move environment.
-. docker/.env
-
 USER="${DB_USER}";
 PASSWORD="${DB_PASSWORD}"
 HOST="localhost"
@@ -34,6 +30,14 @@ function listTable() {
     "SELECT * FROM ${table};" | cut -d\| -f1
 }
 
+#+-------------------------------------+
+#| Generic funtion to create a string  |
+#| of fields for an insert request.    |
+#| Parameter :                         |
+#|   fields : list of fields (array).  |
+#| Return    :                         |
+#|   std output : string of fields.    |
+#+-------------------------------------+
 function requestHydratationFields() {
     fields=("${@}")
     bodyfields=""
@@ -50,6 +54,14 @@ function requestHydratationFields() {
     echo ${bodyfields}
 }
 
+#+-------------------------------------+
+#| Generic funtion to create a string  |
+#| of values for an insert request.    |
+#| Parameter :                         |
+#|   values : list of values (array).  |
+#| Return    :                         |
+#|   std output : string of values.    |
+#+-------------------------------------+
 function requestHydratationValues() {
     values=("${@}")
     bodyValues=""
@@ -66,7 +78,17 @@ function requestHydratationValues() {
     echo "${bodyValues}"
 }
 
-function addValuesIntoTable() {
+#+--------------------------------------------+
+#| Build an insert into request.              |
+#| Parameter :                                |
+#|   table         : name of table (string).  |
+#|   numberOfField : number of fields (int).  |
+#|   fields        : list of fields (array).  |
+#|   values        : list of values (array).  |
+#| Return    :                                |
+#|   std output : request (string).           |
+#+--------------------------------------------+
+function buildInsertIntoRequest() {
     table="$1"
     numberOfField="$2"
     shift 2
