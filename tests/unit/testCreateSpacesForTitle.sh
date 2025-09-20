@@ -11,8 +11,8 @@
 # @since : mer. 17 sept. 2025 08:34:50 CEST
 
 # Load the libraries.
-. src/library/UiInterfaceLibrary.sh
-. tests/unit/DisplayResultTestLibrary.sh
+. ../../src/library/UiInterfaceLibrary.sh
+. DisplayResultTestLibrary.sh
 
 displayResultTest "Test createSpacesForTitle 1 : Normal string." "         " "$(createSpacesForTitle 'Didier Beux and family.')"
 

@@ -11,8 +11,8 @@
 # @since : mer. 17 sept. 2025 08:36:26 CEST
 
 # Load the libraries.
-. src/library/UiInterfaceLibrary.sh
-. tests/unit/DisplayResultTestLibrary.sh
+. ../../src/library/UiInterfaceLibrary.sh
+. DisplayResultTestLibrary.sh
 
 
 displayResultTest "displayTitle 1 : Create film." "+---------------------------------+

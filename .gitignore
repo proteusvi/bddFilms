@@ -1,2 +1,3 @@
 /docker
 /.vscode
+/tests/unit/bash_unit-2.3.2
