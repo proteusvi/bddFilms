@@ -30,6 +30,40 @@ function listTable() {
     "SELECT * FROM ${table};" | cut -d\| -f1
 }
 
+#+--------------------------------------------------+
+#| Generic funtion to get the id from a table by    |
+#| a field.                                         |
+#| Parameter :                                      |
+#|   table : name of table (string).                |
+#|   field : name of field (string).                |
+#|   value : value of field (string).               |
+#| Return    :                                      |
+#|   std output : id (int).                         |
+#+--------------------------------------------------+
+function getIdFromTableByField() {
+    table="$1"
+    field="$2"
+    value="$3"
+    result="$(mariadb -u${USER} -p${PASSWORD} -h${HOST} -P${PORT} ${NAME} -e \
+    "SELECT id FROM ${table} WHERE ${field}='${value}';" | cut -d\| -f1 | grep -v id)"
+    echo "${result}"
+}
+
+#+-------------------------------------+
+#| Generic funtion to get the last id  |
+#| from a table.                       |
+#| Parameter :                         |
+#|   table : name of table (string).   |
+#| Return    :                         |
+#|   std output : last id (int).       |
+#+-------------------------------------+
+function getLastIdFromTable() {
+    table="$1"
+    result="$(mariadb -u${USER} -p${PASSWORD} -h${HOST} -P${PORT} ${NAME} -e \
+    "SELECT max(id) FROM ${table};" | cut -d\| -f1 | grep -v id)"
+    echo "${result}"
+}
+
 #+-------------------------------------+
 #| Generic funtion to create a string  |
 #| of fields for an insert request.    |
@@ -112,12 +146,14 @@ function buildInsertIntoRequest() {
     echo ${request}
 }
 
-#+------------------------------------+
-#| Liste content of table langue.     |
-#| Return :                           |
-#|   array : list of langs.           |
-#+------------------------------------+
-function listLang() {
-    list=$(listTable bddFilms.langue)
-    echo ${list[@]}
+function addValuesToTable() {
+    table="$1"
+    numberOfField="$2"
+    shift 2
+    fields=("${@:1:${numberOfField}}")
+    shift $((numberOfField))
+    values=("${@}")
+    
+    request=$(buildInsertIntoRequest ${table} ${numberOfField} ${fields[@]} ${values[@]})
+    mariadb -u${USER} -p${PASSWORD} -h${HOST} -P${PORT} ${NAME} -e "${request}"
 }
