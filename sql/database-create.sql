@@ -133,9 +133,9 @@ create table bddFilms.serie_apour_genre (
     FOREIGN KEY (id_serie) REFERENCES bddFilms.serie (id),
     FOREIGN KEY (id_genre) REFERENCES bddFilms.genre (id)
 );
---+-------------------------------------+
---| Template for linking tables.        |
---+-------------------------------------+
+-- +-------------------------------------+
+-- | Template for linking tables.        |
+-- +-------------------------------------+
 -- create table bddFilms.template (
 --     id_templateA INT(9) NOT NULL,
 --     id_templateB INT(9) NOT NULL,
