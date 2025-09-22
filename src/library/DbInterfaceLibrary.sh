@@ -10,12 +10,6 @@
 # @auth  : proteusvi@gmail.com
 # @since : jeu. 18 sept. 2025 10:24:42 CEST
 
-USER="${DB_USER}";
-PASSWORD="${DB_PASSWORD}"
-HOST="localhost"
-NAME="${DB_NAME}"
-PORT="13306"
-
 #+------------------------------------+
 #| Generic funtion to list content of |
 #| table.                             |
@@ -26,8 +20,14 @@ PORT="13306"
 #+------------------------------------+
 function listTable() {
     table="$1"
-    mariadb -u${USER} -p${PASSWORD} -h${HOST} -P${PORT} ${NAME} -e \
-    "SELECT * FROM ${table};" | cut -d\| -f1
+    set f
+    OIFS="$IFS"
+    IFS=$'\n'
+    local results=($(mariadb -u${USER} -p${PASSWORD} -h${HOST} -P${PORT} ${NAME} -Be \
+    "SELECT * FROM ${table};"))
+    IFS="$OIFS"
+    set +f
+    echo "${results[@]}"
 }
 
 #+--------------------------------------------------+
