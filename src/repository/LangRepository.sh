@@ -19,7 +19,7 @@ function listLang() {
     set f
     OIFS="$IFS"
     IFS=$'\ '
-    local list=($(listTable bddFilms.langue))
+    local list=($(listIdsFromTable bddFilms.langue))
     IFS="$OIFS"
     set +f
     echo ${list[@]}
@@ -42,4 +42,34 @@ function addLang() {
     mariadb -u${USER} -p${PASSWORD} -h${HOST} -P${PORT} ${NAME} -e "${request}"
 
     echo "$(getIdFromTableByField langue libelle ${values[0]})"
+}
+
+getLangById() {
+    id=${1}
+    local result=($(getRowFromTableById langue ${id}))
+    libelle=${result[4]}
+    abr=${result[5]}
+    setLanguage ${id} ${libelle} ${abr}
+    echo $(getLanguage)
+}
+
+function displayListLang() {
+    set f
+    OIFS="$IFS"
+    IFS=$'\ '
+    local list=($(listLang))
+    IFS="$OIFS"
+    set +f
+    cpt=1
+    for id in ${list[@]}; do
+        if [ ${cpt} -gt 1 ]; then
+            displayLang ${id}
+        fi
+        ((cpt++))
+    done
+}
+
+function displayLang() {
+    id=${1}
+    getLangById ${id}
 }

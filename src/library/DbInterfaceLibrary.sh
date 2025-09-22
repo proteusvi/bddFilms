@@ -30,6 +30,25 @@ function listTable() {
     echo "${results[@]}"
 }
 
+#+------------------------------------+
+#| Generic funtion to list ids from   |
+#| table.                             |
+#| Parameter :                        |
+#|   table : name of table (string).  |
+#| Return    :                        |
+#|   std output list of ids (array).  |
+#+------------------------------------+
+function listIdsFromTable() {
+    table="$1"
+    set f
+    OIFS="$IFS"
+    IFS=$'\n'
+    local results=($(mariadb -u${USER} -p${PASSWORD} -h${HOST} -P${PORT} ${NAME} -Be \
+    "SELECT id FROM ${table};"))
+    IFS="$OIFS"
+    set +f
+    echo "${results[@]}"
+}
 #+--------------------------------------------------+
 #| Generic funtion to get the id from a table by    |
 #| a field.                                         |
@@ -64,6 +83,13 @@ function getLastIdFromTable() {
     echo "${result}"
 }
 
+function getRowFromTableById () {
+    table="$1"
+    id="$2"
+    local result=($(mariadb -u${USER} -p${PASSWORD} -h${HOST} -P${PORT} ${NAME} -Be \
+    "SELECT * FROM ${table} WHERE id=${id};"))
+    echo ${result[@]}
+}
 #+-------------------------------------+
 #| Generic funtion to create a string  |
 #| of fields for an insert request.    |
