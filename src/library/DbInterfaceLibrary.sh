@@ -56,26 +56,6 @@ function countResultOfTable(){
     echo ${result}
 }
 
-#+------------------------------------+
-#| Generic funtion to list content of |
-#| table.                             |
-#| Parameter :                        |
-#|   table : name of table (string).  |
-#| Return    :                        |
-#|   std output : list of content.    |
-#+------------------------------------+
-function listTable() {
-    table="$1"
-    set -f
-    OIFS="${IFS}"
-    IFS=$'\n'
-    results=( $(mariadb -u${USER} -p${PASSWORD} -h${HOST} -P${PORT} ${NAME} -Be \
-    "SELECT * FROM ${table};") )
-    IFS="${OIFS}"
-    set +f
-    echo "${results[@]}"
-}
-
 #+--------------------------------------------------+
 #| Generic funtion to get the id from a table by    |
 #| a field.                                         |

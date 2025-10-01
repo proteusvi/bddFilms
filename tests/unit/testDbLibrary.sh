@@ -47,13 +47,3 @@ test_dbCredentials() {
     assert_not_equals "" "${NAME}" "Erreur, la variable NAME est vide"
     assert_not_equals "" "${PORT}" "Erreur, la variable PORT est vide"
 }
-
-test_listTable() {
-    set f
-    OIFS="$IFS"
-    IFS=$'\ '
-    local list=($(listTable bddFilms.langue))
-    IFS="$OIFS"
-    set +f
-    assert_equals 5 ${#list[@]} "Erreur, le nombre d'éléments dans la liste est incorrect"
-}
