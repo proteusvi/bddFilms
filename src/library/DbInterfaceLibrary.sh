@@ -137,3 +137,11 @@ function addValuesToTable() {
     request=$(buildInsertIntoRequest ${table} ${numberOfField} "${fields[@]}" "${values[@]}")
     mariadb -u${USER} -p${PASSWORD} -h${HOST} -P${PORT} ${NAME} -e "${request}"
 }
+
+function getRowFromTableById() {
+    table="$1"
+    id="$2"
+    results=( $(mariadb -u${USER} -p${PASSWORD} -h${HOST} -P${PORT} ${NAME} -Be \
+    "SELECT * FROM ${table} WHERE id=${id};") )
+    echo "${results[@]}"
+}

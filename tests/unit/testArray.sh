@@ -74,3 +74,35 @@ test_getListLang() {
     assert_equals "${idsLangResults[3]}" "${results[4]}" "Erreur, le quatrième élément du tableau est incorrect"
     assert_equals "${idsLangResults[4]}" "${results[5]}" "Erreur, le cinquième élément du tableau est incorrect"
 }
+
+test_getLangById() {
+    results=( $(getLangById ${idsLangResults[0]}) )
+    assert_equals 6 ${#results[@]} "Erreur, le nombre d'éléments dans le tableau est incorrect"
+    assert_equals "${idsLangResults[0]}" "${results[3]}" "Erreur, l'id du lang est incorrect"
+    assert_equals "Français" "${results[4]}" "Erreur, le libellé du lang est incorrect"
+    assert_equals "fr" "${results[5]}" "Erreur, l'abréviation du lang est incorrect"
+
+    results=( $(getLangById ${idsLangResults[1]}) )
+    assert_equals 6 ${#results[@]} "Erreur, le nombre d'éléments dans le tableau est incorrect"
+    assert_equals "${idsLangResults[1]}" "${results[3]}" "Erreur, l'id du lang est incorrect"
+    assert_equals "Anglais" "${results[4]}" "Erreur, le libellé du lang est incorrect"
+    assert_equals "en" "${results[5]}" "Erreur, l'abréviation du lang est incorrect"
+
+    results=( $(getLangById ${idsLangResults[2]}) )
+    assert_equals 6 ${#results[@]} "Erreur, le nombre d'éléments dans le tableau est incorrect"
+    assert_equals "${idsLangResults[2]}" "${results[3]}" "Erreur, l'id du lang est incorrect"
+    assert_equals "Allemand" "${results[4]}" "Erreur, le libellé du lang est incorrect"
+    assert_equals "de" "${results[5]}" "Erreur, l'abréviation du lang est incorrect"
+
+    results=( $(getLangById ${idsLangResults[3]}) )
+    assert_equals 6 ${#results[@]} "Erreur, le nombre d'éléments dans le tableau est incorrect"
+    assert_equals "${idsLangResults[3]}" "${results[3]}" "Erreur, l'id du lang est incorrect"
+    assert_equals "Italien" "${results[4]}" "Erreur, le libellé du lang est incorrect"
+    assert_equals "it" "${results[5]}" "Erreur, l'abréviation du lang est incorrect"
+
+    results=( $(getLangById ${idsLangResults[4]}) )
+    assert_equals 6 ${#results[@]} "Erreur, le nombre d'éléments dans le tableau est incorrect"
+    assert_equals "${idsLangResults[4]}" "${results[3]}" "Erreur, l'id du lang est incorrect"
+    assert_equals "Japonais" "${results[4]}" "Erreur, le libellé du lang est incorrect"
+    assert_equals "ja" "${results[5]}" "Erreur, l'abréviation du lang est incorrect"
+}

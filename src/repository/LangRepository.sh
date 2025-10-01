@@ -39,3 +39,16 @@ function addLang() {
     fi
     echo "${id}"
 }
+
+#+--------------------------------+
+#| Get a lang by its id.          |
+#| Parameter :                    |
+#|   $1 : id (int).               |
+#| Return    :                    |
+#|   std output : lang (array).   |
+#+--------------------------------+
+function getLangById() {
+    id="$1"
+    results=( $(getRowFromTableById bddFilms.langue ${id}) )
+    echo "${results[@]}"
+}
