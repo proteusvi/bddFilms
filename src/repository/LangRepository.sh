@@ -16,60 +16,26 @@
 #|   array : list of langs.           |
 #+------------------------------------+
 function listLang() {
-    set f
-    OIFS="$IFS"
-    IFS=$'\ '
-    local list=($(listIdsFromTable bddFilms.langue))
-    IFS="$OIFS"
-    set +f
-    echo ${list[@]}
+    list=$(getListIdsFromTable bddFilms.langue)
+    echo "${list[@]}"
 }
 
-#+------------------------------------+
-#| Add a lang in the table langue.    |
-#| Parameter :                        |
-#|   libelle : libelle of lang.       |
-#|   abr     : abr of lang.           |
-#| Return    :                        |
-#|   std output : id of lang (int).   |
-#+------------------------------------+
+#+--------------------------------+
+#| Add a lang in the database.    |
+#| Parameter :                    |
+#|   $1 : libelle (string).       |
+#|   $2 : abr (string).           |
+#| Return    :                    |
+#|   std output : id of lang (int)|
+#+--------------------------------+
 function addLang() {
     fields=('libelle' 'abr')
-    table="langue"
     values=("${@}")
-
-    request=$(buildInsertIntoRequest ${table} 2 ${fields[@]} ${values[@]})
+    request=$(buildInsertIntoRequest langue 2 ${fields[@]} ${values[@]})
     mariadb -u${USER} -p${PASSWORD} -h${HOST} -P${PORT} ${NAME} -e "${request}"
-
-    echo "$(getIdFromTableByField langue libelle ${values[0]})"
-}
-
-getLangById() {
-    id=${1}
-    local result=($(getRowFromTableById langue ${id}))
-    libelle=${result[4]}
-    abr=${result[5]}
-    setLanguage ${id} ${libelle} ${abr}
-    echo $(getLanguage)
-}
-
-function displayListLang() {
-    set f
-    OIFS="$IFS"
-    IFS=$'\ '
-    local list=($(listLang))
-    IFS="$OIFS"
-    set +f
-    cpt=1
-    for id in ${list[@]}; do
-        if [ ${cpt} -gt 1 ]; then
-            displayLang ${id}
-        fi
-        ((cpt++))
-    done
-}
-
-function displayLang() {
-    id=${1}
-    getLangById ${id}
+    id=$(getLastIdFromTable langue)
+    if [ "${id}" != "" ]; then
+        mariadb -u${USER} -p${PASSWORD} -h${HOST} -P${PORT} ${NAME} -e "commit;"
+    fi
+    echo "${id}"
 }

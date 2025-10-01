@@ -10,45 +10,72 @@
 # @auth  : proteusvi@gmail.com
 # @since : jeu. 18 sept. 2025 10:24:42 CEST
 
+USER="${DB_USER}";
+PASSWORD="${DB_PASSWORD}"
+HOST="localhost"
+NAME="${DB_NAME}"
+PORT="13306"
+
+
+getListIdsFromTable()  {
+    table="$1"
+    set -f
+    OIFS="$IFS"
+    IFS=$'\n'
+    result=( $(mariadb -u${USER} -p${PASSWORD} -h${HOST} -P${PORT} ${NAME} -Be \
+    "SELECT id FROM ${table};") )
+    IFS="$OIFS"
+    set +f
+    echo "${result[@]}"
+}
+#+---------------------------------------+
+#| Count columns from a table.           |
+#| Parameter :                           |
+#|  table : name of table (string)       |
+#| Return :                              |
+#|  std output : number of columns (int) |
+#+---------------------------------------+
+function countColumnsInTable() {
+    table="$1"
+    result="$(mariadb -u${USER} -p${PASSWORD} -h${HOST} -P${PORT} ${NAME} -e \
+    "SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='${NAME}' AND TABLE_NAME='${table}';" | cut -d\| -f1 | grep -v COUNT)"
+    echo ${result}
+}
+
+#+----------------------------------------+
+#| Count results from a table.            |
+#| Parameter :                            |
+#|  table : name of table (string)        |
+#| Return :                               |
+#|  std output : number of results (int)  |
+#+----------------------------------------+
+function countResultOfTable(){
+    table="$1"
+    result="$(mariadb -u${USER} -p${PASSWORD} -h${HOST} -P${PORT} ${NAME} -e \
+    "SELECT COUNT(*) FROM ${table};" | cut -d\) -f2)"
+    echo ${result}
+}
+
 #+------------------------------------+
 #| Generic funtion to list content of |
 #| table.                             |
 #| Parameter :                        |
 #|   table : name of table (string).  |
 #| Return    :                        |
-#|   std output list of table.        |
+#|   std output : list of content.    |
 #+------------------------------------+
 function listTable() {
     table="$1"
-    set f
-    OIFS="$IFS"
+    set -f
+    OIFS="${IFS}"
     IFS=$'\n'
-    local results=($(mariadb -u${USER} -p${PASSWORD} -h${HOST} -P${PORT} ${NAME} -Be \
-    "SELECT * FROM ${table};"))
-    IFS="$OIFS"
+    results=( $(mariadb -u${USER} -p${PASSWORD} -h${HOST} -P${PORT} ${NAME} -Be \
+    "SELECT * FROM ${table};") )
+    IFS="${OIFS}"
     set +f
     echo "${results[@]}"
 }
 
-#+------------------------------------+
-#| Generic funtion to list ids from   |
-#| table.                             |
-#| Parameter :                        |
-#|   table : name of table (string).  |
-#| Return    :                        |
-#|   std output list of ids (array).  |
-#+------------------------------------+
-function listIdsFromTable() {
-    table="$1"
-    set f
-    OIFS="$IFS"
-    IFS=$'\n'
-    local results=($(mariadb -u${USER} -p${PASSWORD} -h${HOST} -P${PORT} ${NAME} -Be \
-    "SELECT id FROM ${table};"))
-    IFS="$OIFS"
-    set +f
-    echo "${results[@]}"
-}
 #+--------------------------------------------------+
 #| Generic funtion to get the id from a table by    |
 #| a field.                                         |
