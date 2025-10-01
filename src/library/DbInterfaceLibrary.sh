@@ -22,57 +22,11 @@ getListIdsFromTable()  {
     set -f
     OIFS="$IFS"
     IFS=$'\n'
-    result=( $(mariadb -u${USER} -p${PASSWORD} -h${HOST} -P${PORT} ${NAME} -Be \
+    results=( $(mariadb -u${USER} -p${PASSWORD} -h${HOST} -P${PORT} ${NAME} -Be \
     "SELECT id FROM ${table};") )
     IFS="$OIFS"
     set +f
-    echo "${result[@]}"
-}
-#+---------------------------------------+
-#| Count columns from a table.           |
-#| Parameter :                           |
-#|  table : name of table (string)       |
-#| Return :                              |
-#|  std output : number of columns (int) |
-#+---------------------------------------+
-function countColumnsInTable() {
-    table="$1"
-    result="$(mariadb -u${USER} -p${PASSWORD} -h${HOST} -P${PORT} ${NAME} -e \
-    "SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='${NAME}' AND TABLE_NAME='${table}';" | cut -d\| -f1 | grep -v COUNT)"
-    echo ${result}
-}
-
-#+----------------------------------------+
-#| Count results from a table.            |
-#| Parameter :                            |
-#|  table : name of table (string)        |
-#| Return :                               |
-#|  std output : number of results (int)  |
-#+----------------------------------------+
-function countResultOfTable(){
-    table="$1"
-    result="$(mariadb -u${USER} -p${PASSWORD} -h${HOST} -P${PORT} ${NAME} -e \
-    "SELECT COUNT(*) FROM ${table};" | cut -d\) -f2)"
-    echo ${result}
-}
-
-#+--------------------------------------------------+
-#| Generic funtion to get the id from a table by    |
-#| a field.                                         |
-#| Parameter :                                      |
-#|   table : name of table (string).                |
-#|   field : name of field (string).                |
-#|   value : value of field (string).               |
-#| Return    :                                      |
-#|   std output : id (int).                         |
-#+--------------------------------------------------+
-function getIdFromTableByField() {
-    table="$1"
-    field="$2"
-    value="$3"
-    result="$(mariadb -u${USER} -p${PASSWORD} -h${HOST} -P${PORT} ${NAME} -e \
-    "SELECT id FROM ${table} WHERE ${field}='${value}';" | cut -d\| -f1 | grep -v id)"
-    echo "${result}"
+    echo "${results[@]}"
 }
 
 #+-------------------------------------+
@@ -90,13 +44,6 @@ function getLastIdFromTable() {
     echo "${result}"
 }
 
-function getRowFromTableById () {
-    table="$1"
-    id="$2"
-    local result=($(mariadb -u${USER} -p${PASSWORD} -h${HOST} -P${PORT} ${NAME} -Be \
-    "SELECT * FROM ${table} WHERE id=${id};"))
-    echo ${result[@]}
-}
 #+-------------------------------------+
 #| Generic funtion to create a string  |
 #| of fields for an insert request.    |
@@ -166,8 +113,8 @@ function buildInsertIntoRequest() {
     headerFieldsRequest="INSERT INTO ${table} ("
     headerValuesRequest=") VALUES ("
     footerRequest=");"
-    bodyFieldsRequest="$(requestHydratationFields ${fields[@]})"
-    bodyValuesRequest="$(requestHydratationValues ${values[@]})"
+    bodyFieldsRequest="$(requestHydratationFields "${fields[@]}")"
+    bodyValuesRequest="$(requestHydratationValues "${values[@]}")"
 
     request="
     ${headerFieldsRequest}
@@ -187,6 +134,6 @@ function addValuesToTable() {
     shift $((numberOfField))
     values=("${@}")
     
-    request=$(buildInsertIntoRequest ${table} ${numberOfField} ${fields[@]} ${values[@]})
+    request=$(buildInsertIntoRequest ${table} ${numberOfField} "${fields[@]}" "${values[@]}")
     mariadb -u${USER} -p${PASSWORD} -h${HOST} -P${PORT} ${NAME} -e "${request}"
 }
