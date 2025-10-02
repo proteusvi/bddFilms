@@ -52,3 +52,17 @@ function getLangById() {
     results=( $(getRowFromTableById bddFilms.langue ${id}) )
     echo "${results[@]}"
 }
+
+#¼+--------------------------------+
+#| Display a lang.                 |
+#| Parameter :                     |
+#|   $1 : lang (array).            |
+#| Return    :                     |
+#|   std output : none.            |
+#+---------------------------------+
+function displayLang() {
+    lang=("${@}")
+    echo "id      : ${lang[0]}"
+    echo "libelle : ${lang[1]}"
+    echo "abr     : ${lang[2]}"
+}

@@ -56,7 +56,8 @@ function iniDatabase() {
 iniDatabase
 
 test_listIdsFromTable() {
-    results=( $(getListIdsFromTable bddFilms.langue) )
+    IFS=" " read -r -a results <<< "$(getListIdsFromTable bddFilms.langue)"
+    # results=( $(getListIdsFromTable bddFilms.langue) )
     assert_equals 6 ${#results[@]} "Erreur, le nombre d'éléments dans le tableau est incorrect"
     assert_equals "${idsLangResults[0]}" "${results[1]}" "Erreur, le premier élément du tableau est incorrect"
     assert_equals "${idsLangResults[1]}" "${results[2]}" "Erreur, le deuxième élément du tableau est incorrect"
@@ -66,7 +67,7 @@ test_listIdsFromTable() {
 }
 
 test_getListLang() {
-    results=( $(listLang) )
+    IFS=" " read -r -a results <<< "$(listLang)"
     assert_equals 6 ${#results[@]} "Erreur, le nombre d'éléments dans le tableau est incorrect"
     assert_equals "${idsLangResults[0]}" "${results[1]}" "Erreur, le premier élément du tableau est incorrect"
     assert_equals "${idsLangResults[1]}" "${results[2]}" "Erreur, le deuxième élément du tableau est incorrect"
@@ -76,33 +77,42 @@ test_getListLang() {
 }
 
 test_getLangById() {
-    results=( $(getLangById ${idsLangResults[0]}) )
+    IFS=" " read -r -a results <<< "$(getLangById ${idsLangResults[0]})"
     assert_equals 6 ${#results[@]} "Erreur, le nombre d'éléments dans le tableau est incorrect"
     assert_equals "${idsLangResults[0]}" "${results[3]}" "Erreur, l'id du lang est incorrect"
     assert_equals "Français" "${results[4]}" "Erreur, le libellé du lang est incorrect"
     assert_equals "fr" "${results[5]}" "Erreur, l'abréviation du lang est incorrect"
 
-    results=( $(getLangById ${idsLangResults[1]}) )
+    IFS=" " read -r -a results <<< "$(getLangById ${idsLangResults[1]})"
     assert_equals 6 ${#results[@]} "Erreur, le nombre d'éléments dans le tableau est incorrect"
     assert_equals "${idsLangResults[1]}" "${results[3]}" "Erreur, l'id du lang est incorrect"
     assert_equals "Anglais" "${results[4]}" "Erreur, le libellé du lang est incorrect"
     assert_equals "en" "${results[5]}" "Erreur, l'abréviation du lang est incorrect"
 
-    results=( $(getLangById ${idsLangResults[2]}) )
+    IFS=" " read -r -a results <<< "$(getLangById ${idsLangResults[2]})"
     assert_equals 6 ${#results[@]} "Erreur, le nombre d'éléments dans le tableau est incorrect"
     assert_equals "${idsLangResults[2]}" "${results[3]}" "Erreur, l'id du lang est incorrect"
     assert_equals "Allemand" "${results[4]}" "Erreur, le libellé du lang est incorrect"
     assert_equals "de" "${results[5]}" "Erreur, l'abréviation du lang est incorrect"
 
-    results=( $(getLangById ${idsLangResults[3]}) )
+    IFS=" " read -r -a results <<< "$(getLangById ${idsLangResults[3]})"
     assert_equals 6 ${#results[@]} "Erreur, le nombre d'éléments dans le tableau est incorrect"
     assert_equals "${idsLangResults[3]}" "${results[3]}" "Erreur, l'id du lang est incorrect"
     assert_equals "Italien" "${results[4]}" "Erreur, le libellé du lang est incorrect"
     assert_equals "it" "${results[5]}" "Erreur, l'abréviation du lang est incorrect"
 
-    results=( $(getLangById ${idsLangResults[4]}) )
+    IFS=" " read -r -a results <<< "$(getLangById ${idsLangResults[4]})"
     assert_equals 6 ${#results[@]} "Erreur, le nombre d'éléments dans le tableau est incorrect"
     assert_equals "${idsLangResults[4]}" "${results[3]}" "Erreur, l'id du lang est incorrect"
     assert_equals "Japonais" "${results[4]}" "Erreur, le libellé du lang est incorrect"
     assert_equals "ja" "${results[5]}" "Erreur, l'abréviation du lang est incorrect"
+}
+
+testDisplayLang() {
+    IFS=" " read -r -a results <<< "$(getLangById ${idsLangResults[0]})"
+    output=$(displayLang "${results[3]}" "${results[4]}" "${results[5]}")
+    expected="id      : ${results[3]}
+libelle : ${results[4]}
+abr     : ${results[5]}"
+    assert_equals "${expected}" "${output}" "Erreur, l'affichage du lang est incorrect"
 }
