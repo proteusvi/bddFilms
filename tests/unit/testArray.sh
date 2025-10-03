@@ -57,7 +57,6 @@ iniDatabase
 
 test_listIdsFromTable() {
     IFS=" " read -r -a results <<< "$(getListIdsFromTable bddFilms.langue)"
-    # results=( $(getListIdsFromTable bddFilms.langue) )
     assert_equals 6 ${#results[@]} "Erreur, le nombre d'éléments dans le tableau est incorrect"
     assert_equals "${idsLangResults[0]}" "${results[1]}" "Erreur, le premier élément du tableau est incorrect"
     assert_equals "${idsLangResults[1]}" "${results[2]}" "Erreur, le deuxième élément du tableau est incorrect"

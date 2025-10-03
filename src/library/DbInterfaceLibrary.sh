@@ -19,13 +19,8 @@ PORT="13306"
 
 getListIdsFromTable()  {
     table="$1"
-    set -f
-    OIFS="$IFS"
-    IFS=$'\n'
     results=( $(mariadb -u${USER} -p${PASSWORD} -h${HOST} -P${PORT} ${NAME} -Be \
     "SELECT id FROM ${table};") )
-    IFS="$OIFS"
-    set +f
     echo "${results[@]}"
 }
 
@@ -39,8 +34,8 @@ getListIdsFromTable()  {
 #+-------------------------------------+
 function getLastIdFromTable() {
     table="$1"
-    result="$(mariadb -u${USER} -p${PASSWORD} -h${HOST} -P${PORT} ${NAME} -e \
-    "SELECT max(id) FROM ${table};" | cut -d\| -f1 | grep -v id)"
+    result="$(mariadb -u${USER} -p${PASSWORD} -h${HOST} -P${PORT} ${NAME} -Be \
+    "SELECT max(id) FROM ${table};" | grep -v id)"
     echo "${result}"
 }
 
